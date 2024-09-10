@@ -38,7 +38,7 @@
       "../../../.eslintrc.js"
     ]
   },
-  "homepage": "https://kokecoco.github.io/kits-memo/",
+  "homepage": "https://kokecoco.github.io/KITs-memo/",
   "eslintIgnore": [
     "dist"
   ]
