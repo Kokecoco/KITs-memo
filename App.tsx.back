@@ -1,0 +1,193 @@
+import React, { useEffect, useMemo, useState } from "react";
+import {
+  Modal,
+  Button,
+  MantineProvider,
+  Box,
+  TextInput,
+  Group,
+  Title,
+} from "@mantine/core";
+import { BlockNoteEditor, PartialBlock, Block } from "@blocknote/core";
+import { BlockNoteView } from "@blocknote/mantine";
+import "@blocknote/core/fonts/inter.css";
+import "@blocknote/mantine/style.css";
+
+async function saveToStorage(key: string, jsonBlocks: Block[]) {
+  localStorage.setItem(key, JSON.stringify(jsonBlocks));
+}
+
+async function loadFromStorage(key: string) {
+  const storageString = localStorage.getItem(key);
+  return storageString
+    ? (JSON.parse(storageString) as PartialBlock[])
+    : undefined;
+}
+
+async function deleteFromStorage(key: string) {
+  localStorage.removeItem(key);
+}
+
+export default function App() {
+  const [initialContent, setInitialContent] = useState<
+    PartialBlock[] | undefined | "loading"
+  >("loading");
+  const [modalOpened, setModalOpened] = useState(true); // 初回レンダリング時にモーダルを開く
+  const [memoList, setMemoList] = useState<string[]>(Object.keys(localStorage)); // ローカルストレージのキーを取得してメモリストを設定
+  const [newMemoTitle, setNewMemoTitle] = useState(""); // 新しいメモのタイトル
+  const [currentMemo, setCurrentMemo] = useState<string | null>(null); // 現在のメモのタイトル
+
+  useEffect(() => {
+    if (currentMemo) {
+      loadFromStorage(currentMemo).then((content) => {
+        setInitialContent(content || defaultBlock);
+      });
+    }
+  }, [currentMemo]);
+
+  const defaultBlock = [{ type: "paragraph", content: [] }] as PartialBlock[];
+
+  const editor = useMemo(() => {
+    if (initialContent === "loading" || initialContent === undefined) {
+      return undefined;
+    }
+    return BlockNoteEditor.create({
+      initialContent: initialContent.length > 0 ? initialContent : defaultBlock,
+    });
+  }, [initialContent]);
+
+  const handleSave = () => {
+    if (editor && currentMemo) {
+      saveToStorage(currentMemo, editor.document); // 現在のメモタイトルで保存
+    }
+  };
+
+  const handleNewMemo = () => {
+    if (newMemoTitle.trim() !== "") {
+      if (!memoList.includes(newMemoTitle)) {
+        setMemoList([...memoList, newMemoTitle]);
+        setCurrentMemo(newMemoTitle); // 新しいメモのタイトルを現在のメモとして設定
+        setInitialContent(defaultBlock); // 新しいメモを作成する際、デフォルトのパラグラフブロックを設定
+        setModalOpened(false);
+        setNewMemoTitle("");
+      } else {
+        alert(
+          "同じタイトルのメモが既に存在します。別のタイトルを入力してください。",
+        );
+      }
+    } else {
+      alert("メモのタイトルを入力してください。");
+    }
+  };
+
+  const handleDeleteMemo = (memo: string) => {
+    deleteFromStorage(memo);
+    setMemoList(memoList.filter((m) => m !== memo));
+    if (memo === currentMemo) {
+      setCurrentMemo(null);
+      setInitialContent(defaultBlock);
+    }
+  };
+
+  if (editor === undefined && !modalOpened) {
+    return "Loading content...";
+  }
+
+  return (
+    <MantineProvider withGlobalStyles withNormalizeCSS>
+      <div>
+        <Button onClick={() => setModalOpened(true)}>メモを選択</Button>
+
+        <Modal
+          opened={modalOpened}
+          onClose={() => setModalOpened(false)}
+          title={
+            <Title order={3} style={{ color: "#000000" }}>
+              メモの選択
+            </Title>
+          } // タイトルのテキスト色を黒に設定
+          overlayProps={{
+            backgroundOpacity: 0.5,
+            blur: 2,
+          }}
+          styles={{
+            header: {
+              backgroundColor: "#ffffff", // ヘッダーの背景色を白に設定
+              borderBottom: "1px solid #eaeaea", // 下に薄いボーダーを追加
+              padding: "10px 20px", // ヘッダー部分のパディングを追加
+            },
+            body: {
+              paddingTop: 20,
+              backgroundColor: "#ffffff", // モーダルボディ全体の背景色も白に設定
+              padding: "20px", // モーダルのボディ部分にもパディングを追加
+            },
+            content: {
+              backgroundColor: "#ffffff", // モーダル全体の背景を白に
+            },
+          }}
+        >
+          <Box>
+            <Group direction="column" spacing="xs">
+              <TextInput
+                value={newMemoTitle}
+                onChange={(e) => setNewMemoTitle(e.currentTarget.value)}
+                placeholder="新しいメモのタイトル"
+                withAsterisk
+                styles={{
+                  input: {
+                    backgroundColor: "#f8f9fa", // テキスト入力欄の背景をわかりやすく
+                    borderColor: "#ced4da", // 境界線の色
+                    padding: "10px", // テキスト入力欄の内部パディング
+                  },
+                }}
+              />
+              <Button
+                onClick={handleNewMemo}
+                variant="filled" // Filledにしてボタンを目立たせる
+                style={{
+                  backgroundColor: "#007bff",
+                  color: "#fff",
+                  padding: "10px 20px", // ボタンのパディングを追加
+                }}
+              >
+                新しいメモを作成
+              </Button>
+            </Group>
+            <div style={{ marginTop: 20 }}>
+              <ul style={{ padding: 0, listStyleType: "none" }}>
+                {memoList.map((memo) => (
+                  <li
+                    key={memo}
+                    style={{ marginBottom: "10px", paddingLeft: "10px" }}
+                  >
+                    {" "}
+                    {/* リスト項目に余白を追加 */}
+                    <Button
+                      onClick={() => {
+                        setCurrentMemo(memo); // 選択したメモを現在のメモとして設定
+                        setModalOpened(false);
+                      }}
+                      style={{ marginRight: "10px", padding: "10px 20px" }} // ボタンに余白を追加
+                    >
+                      {memo}
+                    </Button>
+                    <Button
+                      onClick={() => handleDeleteMemo(memo)}
+                      variant="outline"
+                      color="red"
+                      style={{ padding: "10px 20px" }} // 削除ボタンにもパディングを追加
+                    >
+                      削除
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Box>
+        </Modal>
+
+        {editor && <BlockNoteView editor={editor} onChange={handleSave} />}
+      </div>
+    </MantineProvider>
+  );
+}
