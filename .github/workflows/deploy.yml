@@ -30,7 +30,7 @@ jobs:
 
     # 独自ドメインにデプロイするためにCNAMEファイルを作成する
     - name: Create CNAME file
-        run: echo 'memo.kits-tools.net' > ./dist/CNAME
+      run: echo 'memo.kits-tools.net' > ./dist/CNAME
 
     # ビルドされたファイルをgh-pagesにデプロイ
     - name: Deploy to GitHub Pages
