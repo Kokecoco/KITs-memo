@@ -31,10 +31,12 @@ export default function App() {
   const [initialContent, setInitialContent] = useState<
     PartialBlock[] | undefined | "loading"
   >("loading");
-  const [modalOpened, setModalOpened] = useState(true); // 初回レンダリング時にモーダルを開く
-  const [memoList, setMemoList] = useState<string[]>(Object.keys(localStorage)); // ローカルストレージのキーを取得してメモリストを設定
-  const [newMemoTitle, setNewMemoTitle] = useState(""); // 新しいメモのタイトル
-  const [currentMemo, setCurrentMemo] = useState<string | null>(null); // 現在のメモのタイトル
+  const [modalOpened, setModalOpened] = useState(true);
+  const [memoList, setMemoList] = useState<string[]>(
+    Object.keys(localStorage).filter((key) => key.startsWith("memo-")),
+  );
+  const [newMemoTitle, setNewMemoTitle] = useState("");
+  const [currentMemo, setCurrentMemo] = useState<string | null>(null);
 
   useEffect(() => {
     if (currentMemo) {
@@ -57,22 +59,21 @@ export default function App() {
 
   const handleSave = () => {
     if (editor && currentMemo) {
-      saveToStorage(currentMemo, editor.document); // 現在のメモタイトルで保存
+      saveToStorage(currentMemo, editor.document);
     }
   };
 
   const handleNewMemo = () => {
     if (newMemoTitle.trim() !== "") {
-      if (!memoList.includes(newMemoTitle)) {
-        setMemoList([...memoList, newMemoTitle]);
-        setCurrentMemo(newMemoTitle); // 新しいメモのタイトルを現在のメモとして設定
-        setInitialContent(defaultBlock); // 新しいメモを作成する際、デフォルトのパラグラフブロックを設定
+      const memoKey = `memo-${newMemoTitle}`;
+      if (!memoList.includes(memoKey)) {
+        setMemoList([...memoList, memoKey]);
+        setCurrentMemo(memoKey);
+        setInitialContent(defaultBlock);
         setModalOpened(false);
         setNewMemoTitle("");
       } else {
-        alert(
-          "同じタイトルのメモが既に存在します。別のタイトルを入力してください。",
-        );
+        alert("同じタイトルのメモが既に存在します。");
       }
     } else {
       alert("メモのタイトルを入力してください。");
@@ -95,7 +96,7 @@ export default function App() {
   return (
     <MantineProvider>
       <div>
-        <Button onClick={() => setModalOpened(true)}>メモを選択</Button>
+        <Button onClick={() => setModalOpened(true)}>メモ選択/作成</Button>
 
         <Modal
           opened={modalOpened}
@@ -103,18 +104,13 @@ export default function App() {
           title="メモの選択"
           size="lg"
           styles={{
-            header: {
-              backgroundColor: "white",
-              padding: "10px",
-              // marginBottom: "10px",
-            }, // ヘッダー部分の背景を白にし、余白を追加
-            body: { backgroundColor: "white", padding: "20px" }, // ボディ部分の背景を白に設定
+            header: { backgroundColor: "white", padding: "10px" },
+            body: { backgroundColor: "white", padding: "20px" },
             title: {
               margin: "0 0 0 10px",
               fontSize: "18px",
               fontWeight: "bold",
-              textAlign: "left",
-            }, // タイトルを左寄せにし、マージンを追加
+            },
           }}
         >
           <Box>
@@ -127,7 +123,7 @@ export default function App() {
                   marginBottom: "10px",
                   borderRadius: "4px",
                   border: "1px solid #ccc",
-                }} // 入力欄をわかりやすくするスタイル
+                }}
               />
               <Button
                 onClick={handleNewMemo}
@@ -151,7 +147,7 @@ export default function App() {
                   <li key={memo} style={{ marginBottom: "10px" }}>
                     <Button
                       onClick={() => {
-                        setCurrentMemo(memo); // 選択したメモを現在のメモとして設定
+                        setCurrentMemo(memo);
                         setModalOpened(false);
                       }}
                       style={{
@@ -163,7 +159,7 @@ export default function App() {
                         borderRadius: "4px",
                       }}
                     >
-                      {memo}
+                      {memo.replace("memo-", "")}
                     </Button>
                     <Button
                       onClick={() => handleDeleteMemo(memo)}
