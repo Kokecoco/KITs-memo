@@ -28,6 +28,10 @@ jobs:
     - name: Build project
       run: npm run build
 
+    # 独自ドメインにデプロイするためにCNAMEファイルを作成する
+    - name: Create CNAME file
+        run: echo 'memo.kits-tools.net' > ./dist/CNAME
+
     # ビルドされたファイルをgh-pagesにデプロイ
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
@@ -35,4 +39,6 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./dist  # ビルドされたファイルが出力されるdistフォルダを指定
         destination_dir: .    # ルートに配置する場合はこの設定
+
+
 
