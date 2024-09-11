@@ -33,7 +33,7 @@
     "gh-pages": "^6.1.1",
     "vite": "^5.4.3"
   },
-  "homepage": "https://kokecoco.github.io/KITs-memo/",
+  "homepage": "https://memo.kits-tools.net/",
   "eslintIgnore": [
     "dist"
   ]
