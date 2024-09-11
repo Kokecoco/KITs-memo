@@ -4,13 +4,18 @@ import * as fs from "fs";
 import * as path from "path";
 import { defineConfig } from "vite";
 
-import { fileURLToPath, URL } from 'url';
+import { fileURLToPath, URL } from "url";
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 // import eslintPlugin from "vite-plugin-eslint";
 // https://vitejs.dev/config/
+//
+//
+
+// vite.config.js
 export default defineConfig((conf) => ({
+  base: "/KITs-memo/", // リポジトリ名に合わせて設定
   plugins: [react()],
   optimizeDeps: {},
   build: {
@@ -26,11 +31,11 @@ export default defineConfig((conf) => ({
             // or, keep as is to load live from sources with live reload working
             "@blocknote/core": path.resolve(
               __dirname,
-              "../../packages/core/src/"
+              "../../packages/core/src/",
             ),
             "@blocknote/react": path.resolve(
               __dirname,
-              "../../packages/react/src/"
+              "../../packages/react/src/",
             ),
           } as any),
   },
