@@ -1,6 +1,6 @@
 {
-  "name": "@blocknote/example-all-blocks",
-  "description": "AUTO-GENERATED FILE, DO NOT EDIT DIRECTLY",
+  "name": "KITs-memo",
+  "description": "KITsのメモ",
   "private": true,
   "version": "0.12.4",
   "scripts": {
@@ -32,11 +32,6 @@
     "eslint": "^8.10.0",
     "gh-pages": "^6.1.1",
     "vite": "^5.4.3"
-  },
-  "eslintConfig": {
-    "extends": [
-      "../../../.eslintrc.js"
-    ]
   },
   "homepage": "https://kokecoco.github.io/KITs-memo/",
   "eslintIgnore": [

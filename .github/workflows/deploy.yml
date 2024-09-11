@@ -1,37 +1,38 @@
-name: Deploy to GitHub Pages
+name: Build and Deploy to gh-pages
 
 on:
   push:
     branches:
-      - main # mainブランチにpushされたときにデプロイ
+      - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      # リポジトリをチェックアウト
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    # リポジトリをクローンするステップ
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      # Node.jsをセットアップ
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16" # 必要に応じてNodeのバージョンを指定
+    # Node.jsのセットアップ
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'  # プロジェクトのNode.jsバージョンを指定
 
-      # 依存関係のインストール
-      - name: Install dependencies
-        run: npm install
+    # 依存パッケージのインストール
+    - name: Install dependencies
+      run: npm install
 
-      # ビルド
-      - name: Build project
-        run: npm run build # ビルドコマンドがある場合は実行
+    # TypeScriptのコンパイルとViteによるビルド
+    - name: Build project
+      run: npm run build
 
-      # GitHub Pagesにデプロイ
-      - name: Deploy to GitHub Pages
-        run: |
-          npm install -g gh-pages
-          gh-pages -d dist  # distフォルダにビルドファイルが生成されている場合
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # ビルドされたファイルをgh-pagesにデプロイ
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist  # ビルドされたファイルが出力されるdistフォルダを指定
+        destination_dir: .    # ルートに配置する場合はこの設定
+
