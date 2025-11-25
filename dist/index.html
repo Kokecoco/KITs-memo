@@ -1,65 +1,158 @@
+<!doctype html>
 <html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
 
-<head>
-  <script></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet" />
+    <title>メモ帳 - KITs</title>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="https://www.kits-tools.net/assets/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="https://www.kits-tools.net/assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="https://www.kits-tools.net/assets/favicon/favicon-16x16.png"
+    />
+    <link
+      rel="manifest"
+      href="https://www.kits-tools.net/assets/favicon/site.webmanifest"
+    />
+    <link
+      rel="mask-icon"
+      href="https://www.kits-tools.net/assets/favicon/safari-pinned-tab.svg"
+      color="#5bbad5"
+    />
+    <link
+      rel="stylesheet"
+      href="https://www.kits-tools.net/assets/css/reset.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://www.kits-tools.net/assets/css/default.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <meta name="msapplication-TileColor" content="#3c3c6c" />
+    <meta name="theme-color" content="#3c3c6c" />
 
-  <link rel="stylesheet" href="https://www.kits-tools.net/assets/css/reset.css" />
-  <link rel="stylesheet" href="https://www.kits-tools.net/assets/css/base.css" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-  <link rel="apple-touch-icon" sizes="180x180" href="https://www.kits-tools.net/assets/favicon/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="https://www.kits-tools.net/assets/favicon/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="https://www.kits-tools.net/assets/favicon/favicon-16x16.png" />
-  <link rel="manifest" href="https://www.kits-tools.net/assets/favicon/site.webmanifest" />
-  <link rel="mask-icon" href="https://www.kits-tools.net/assets/favicon/safari-pinned-tab.svg" color="#5bbad5" />
-  <meta name="msapplication-TileColor" content="#3c3c6c" />
-  <meta name="theme-color" content="#3c3c6c" />
+    <style>
+      .content {
+        margin: 0 20px;
+        min-height: calc(100vh - 132.5px);
+      }
+    </style>
+    <script type="module" crossorigin src="./assets/index-DCtxenNb.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CqCJouwd.css">
+  </head>
 
-  <style>
-    .content {
-      margin: 0 20px;
-      min-height: calc(100vh - 132.5px);
-    }
-  </style>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>メモ帳</title>
-  <script type="module" crossorigin src="/KITs-memo/assets/index-Dzada2CX.js"></script>
-  <link rel="stylesheet" crossorigin href="/KITs-memo/assets/index-DpM_5khK.css">
-</head>
+  <body>
+    <!-- ハンバーガーメニュー用チェックボックス -->
+    <input type="checkbox" id="menu" />
 
-<body>
-  <nav class="navbar navbar-expand-sm">
-    <div class="container-fluid">
-      <a class="navbar-brand white" href="index.html">
-        <img src="https://www.kits-tools.net/assets/images/logo.svg" width="32px" />
-      </a>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active white" aria-current="page" href="https://www.kits-tools.net/index.html">ホーム</a>
+    <!-- ヘッダー -->
+    <header class="header">
+      <label for="menu" class="menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <div class="logo">
+        <img
+          src="https://www.kits-tools.net/assets/images/logo.svg"
+          width="32"
+          alt="Logo"
+        />
+      </div>
+      <nav class="nav">
+        <a href="https://www.kits-tools.net/about.html">About</a>
+        <a href="https://www.kits-tools.net/index.html">Tools</a>
+        <a href="https://blog.kits-tools.net/">Blog</a>
+        <a href="https://www.kits-tools.net/links.html">Link</a>
+        <a href="https://www.kits-tools.net/contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <!-- サイドバー -->
+    <aside id="sidebar" class="sidebar hidden">
+      <div class="sidebar__title">Tools</div>
+      <ul class="sidebar__menu">
+        <li><a href="https://www.kits-tools.net/apa">APAスタイル作成</a></li>
+        <li><a href="https://www.kits-tools.net/clock">時計</a></li>
+        <li><a href="https://www.kits-tools.net/timer">タイマー</a></li>
+        <li>
+          <a href="https://www.kits-tools.net/stopwatch">ストップウォッチ</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link white" href="https://www.kits-tools.net/about.html">KITsとは？</a>
+        <li><a href="https://www.kits-tools.net/group">グループ分け</a></li>
+        <li><a href="https://www.kits-tools.net/conversion">単位変換</a></li>
+        <li>
+          <a href="https://www.kits-tools.net/vertical">縦書きエディタ</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link white" href="https://www.kits-tools.net/links.html">リンク集</a>
+        <li>
+          <a href="https://www.kits-tools.net/kundoku">訓読文エディタ</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link white" href="https://blog.kits-tools.net/">開発者ブログ・使い方など</a>
+        <li><a href="https://www.kits-tools.net/charcount">文字カウント</a></li>
+        <li><a href="https://www.kits-tools.net/todo">todoリスト</a></li>
+        <li><a href="https://www.kits-tools.net/calculator">電卓</a></li>
+        <li>
+          <a href="https://www.kits-tools.net/pomodoro">ポモドーロ時計</a>
         </li>
+        <li><a href="https://www.kits-tools.net/number">数字読み方変換</a></li>
+        <li><a href="https://memo.kits-tools.net/">メモ帳</a></li>
+        <li><a href="https://www.kits-tools.net/count">カウンター</a></li>
+        <li><a href="https://www.kits-tools.net/latex">LaTeX</a></li>
       </ul>
-    </div>
-  </nav>
+    </aside>
 
-  <div id="root" class="content"></div>
-  <footer>
-    <p>&copy; 2024 Kaisei Information Technologies</p>
-  </footer>
-</body>
+    <!-- メイン -->
+    <main class="main">
+      <div class="page-content">
+        <div id="root" class="content"></div>
+      </div>
+    </main>
 
+
+    <!-- フッター -->
+    <footer>
+      <p>© 2024 - 2025 Kaisei Information Technology for support</p>
+    </footer>
+
+    <!-- サイドバー制御スクリプト -->
+    <script>
+      document.getElementById("menu").addEventListener("change", function () {
+        var sidebar = document.getElementById("sidebar");
+        if (this.checked) {
+          sidebar.classList.remove("hidden");
+        } else {
+          sidebar.classList.add("hidden");
+        }
+      });
+    </script>
+  </body>
 </html>
