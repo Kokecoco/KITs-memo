@@ -1,0 +1,11 @@
+# Vite cache and temp files
+node_modules/.vite/deps_temp_*/
+
+# MacOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
